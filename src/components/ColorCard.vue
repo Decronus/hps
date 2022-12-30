@@ -1,8 +1,8 @@
 <template>
   <div class="color-card-wrap">
-    <div class="color-area"></div>
+    <div class="color-area" :style="{ backgroundColor: color }"></div>
     <div class="color-text-and-edit">
-      <p class="color-text">Изумруд</p>
+      <p class="color-text">{{ textColor }}</p>
       <div class="edit-image">
         <svg
           width="14"
@@ -24,6 +24,16 @@
 <script>
 export default {
   name: "color-card",
+  props: {
+    color: {
+      type: String,
+      require: true,
+    },
+    textColor: {
+      type: String,
+      require: true,
+    },
+  },
 };
 </script>
 
