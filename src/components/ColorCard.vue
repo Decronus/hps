@@ -1,9 +1,9 @@
 <template>
   <div class="color-card-wrap">
-    <div class="color-area" :style="{ backgroundColor: color }"></div>
+    <div class="color-area" :style="{ background: color }"></div>
     <div class="color-text-and-edit">
       <p class="color-text">{{ textColor }}</p>
-      <div class="edit-image">
+      <div class="edit-image" @click.stop @click="cons">
         <svg
           width="14"
           height="14"
@@ -27,11 +27,16 @@ export default {
   props: {
     color: {
       type: String,
-      require: true,
+      required: true,
     },
     textColor: {
       type: String,
-      require: true,
+      required: true,
+    },
+  },
+  methods: {
+    cons() {
+      console.log("click");
     },
   },
 };
@@ -47,7 +52,7 @@ export default {
 }
 
 .color-card-wrap:hover {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .color-area {

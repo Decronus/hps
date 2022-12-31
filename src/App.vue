@@ -1,12 +1,39 @@
 <template>
   <div class="app">
-    <side-nav />
-    <colors-wrap />
+    <side-nav :currentPotential="currentPotential" @change="setNewPotential" />
+    <colors-wrap
+      @choiced="nextPotential"
+      :answers="answers"
+      :currentPotential="currentPotential"
+    />
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      currentPotential: 1,
+      answers: [],
+    };
+  },
+  methods: {
+    setNewPotential(newPotential) {
+      this.currentPotential = +newPotential;
+    },
+    setAnswer(textColor) {
+      this.answers[this.currentPotential - 1] = textColor;
+    },
+    nextPotential(textColor) {
+      this.setAnswer(textColor);
+      if (this.currentPotential === 9) {
+        this.currentPotential = 0;
+        return;
+      }
+      this.currentPotential += 1;
+    },
+  },
+};
 </script>
 
 <style>
