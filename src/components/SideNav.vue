@@ -21,6 +21,10 @@ export default {
       type: Number,
       required: true,
     },
+    answers: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -39,8 +43,9 @@ export default {
             currentPotential === potential
               ? "-4px 4px 5px rgba(0, 0, 0, 0.05)"
               : undefined,
-          //   pointerEvents: currentPotential < potential ? "none" : undefined,
-          //   color: currentPotential < potential ? "grey" : undefined,
+          pointerEvents:
+            this.answers.length < potential - 1 ? "none" : undefined,
+          color: this.answers.length < potential - 1 ? "grey" : undefined,
         },
       };
     },

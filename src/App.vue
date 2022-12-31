@@ -1,6 +1,10 @@
 <template>
   <div class="app">
-    <side-nav :currentPotential="currentPotential" @change="setNewPotential" />
+    <side-nav
+      :currentPotential="currentPotential"
+      @change="setNewPotential"
+      :answers="answers"
+    />
     <colors-wrap
       @choiced="nextPotential"
       :answers="answers"

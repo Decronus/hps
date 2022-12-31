@@ -13,13 +13,15 @@
       />
     </div>
     <div class="button-and-text">
-      <h2>Выбранные цвета</h2>
+      <h2>Выбранные&nbsp;цвета</h2>
       <div class="text-wrap">
-        <p v-for="color in answers" :key="color">
-          {{ color }}
-        </p>
+        <ol>
+          <li v-for="color in answers" :key="color">
+            {{ color }}
+          </li>
+        </ol>
       </div>
-      <button class="button">СОЗДАТЬ ОТЧЕТ</button>
+      <button class="button" :="disabledButton()">СОЗДАТЬ&nbsp;ОТЧЕТ</button>
     </div>
   </div>
 </template>
@@ -56,6 +58,16 @@ export default {
     colorChoiced(textColor) {
       this.$emit("choiced", textColor);
       console.log(textColor);
+    },
+    disabledButton() {
+      return {
+        style: {
+          background: this.answers.length < 9 ? "#cccccc" : undefined,
+          boxShadow: this.answers.length < 9 ? "none" : undefined,
+          pointerEvents: this.answers.length < 9 ? "none" : undefined,
+          cursor: this.answers.length < 9 ? "none" : undefined,
+        },
+      };
     },
   },
 };
@@ -103,8 +115,6 @@ export default {
 }
 
 .text-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding-left: 18px;
 }
 </style>
