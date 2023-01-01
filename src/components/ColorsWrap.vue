@@ -1,27 +1,35 @@
 <template>
   <div class="colors-wrap">
     <div
-      class="colors-group"
+      class="colors-group-and-buttons"
       v-if="answers.length < 9 || currentPotential !== 0"
     >
-      <color-card
-        v-for="el of colors"
-        :key="el.color"
-        :color="el.color"
-        :textColor="el.textColor"
-        @click="colorChoiced(el.textColor)"
-      />
+      <div class="colors-group">
+        <color-card
+          v-for="el of colors"
+          :key="el.color"
+          :color="el.color"
+          :textColor="el.textColor"
+          @click="choicedColor(el.textColor)"
+        />
+      </div>
+      <secondary-button
+        v-if="currentPotential >= 7 && currentPotential <= 9"
+        @click="nextPotential"
+        >Далее</secondary-button
+      >
     </div>
-    <div class="button-and-text">
+
+    <div class="colors-choiced-wrap">
       <h2>Выбранные&nbsp;цвета</h2>
-      <div class="text-wrap">
+      <div class="colors-choiced-text-and-button">
         <ol>
           <li v-for="color in answers" :key="color">
             {{ color }}
           </li>
         </ol>
       </div>
-      <button class="button" :="disabledButton()">СОЗДАТЬ&nbsp;ОТЧЕТ</button>
+      <main-button :="disabledButton">СОЗДАТЬ&nbsp;ОТЧЕТ</main-button>
     </div>
   </div>
 </template>
@@ -55,10 +63,15 @@ export default {
     };
   },
   methods: {
-    colorChoiced(textColor) {
+    choicedColor(textColor) {
       this.$emit("choiced", textColor);
       console.log(textColor);
     },
+    nextPotential() {
+      this.$emit("next");
+    },
+  },
+  computed: {
     disabledButton() {
       return {
         style: {
@@ -88,33 +101,16 @@ export default {
   gap: 44px;
 }
 
-.button {
-  padding: 20px 40px;
-  border-radius: 8px;
-  background: #2d9b0c;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.button:hover {
-  background: #61a409;
-}
-
-.button:active {
-  box-shadow: none;
-}
-
-.button-and-text {
+.colors-group-and-buttons {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
 }
 
-.text-wrap {
-  padding-left: 18px;
+.colors-choiced-text-and-button {
+  padding: 30px 0 30px 18px;
+}
+
+.colors-choiced-text-and-button ol li {
+  padding: 5px 0;
 }
 </style>

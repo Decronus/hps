@@ -1,12 +1,13 @@
 <template>
   <div class="app">
     <side-nav
-      :currentPotential="currentPotential"
       @change="setNewPotential"
       :answers="answers"
+      :currentPotential="currentPotential"
     />
     <colors-wrap
-      @choiced="nextPotential"
+      @choiced="setAnswer"
+      @next="nextPotential"
       :answers="answers"
       :currentPotential="currentPotential"
     />
@@ -19,17 +20,29 @@ export default {
     return {
       currentPotential: 1,
       answers: [],
+      temporaryAnswersArray: [],
     };
   },
   methods: {
     setNewPotential(newPotential) {
       this.currentPotential = +newPotential;
     },
+
     setAnswer(textColor) {
-      this.answers[this.currentPotential - 1] = textColor;
+      if (this.currentPotential >= 7 && this.currentPotential <= 9) {
+        this.temporaryAnswersArray.push(textColor);
+      } else {
+        this.answers[this.currentPotential - 1] = textColor;
+        if (this.currentPotential === 9) {
+          this.currentPotential = 0;
+          return;
+        }
+        this.currentPotential += 1;
+      }
     },
-    nextPotential(textColor) {
-      this.setAnswer(textColor);
+    nextPotential() {
+      this.answers[this.currentPotential - 1] = this.temporaryAnswersArray;
+      this.temporaryAnswersArray = [];
       if (this.currentPotential === 9) {
         this.currentPotential = 0;
         return;

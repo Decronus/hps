@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     cons() {
-      console.log("click");
+      console.log(`click`);
     },
   },
 };
