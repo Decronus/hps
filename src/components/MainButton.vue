@@ -20,11 +20,11 @@ export default {
   transition: all 0.2s ease-in-out;
 }
 
-.button:hover {
+.main-button:hover {
   background: #61a409;
 }
 
-.button:active {
+.main-button:active {
   box-shadow: none;
 }
 </style>

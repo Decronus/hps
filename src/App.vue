@@ -30,7 +30,14 @@ export default {
 
     setAnswer(textColor) {
       if (this.currentPotential >= 7 && this.currentPotential <= 9) {
-        this.temporaryAnswersArray.push(textColor);
+        if (this.temporaryAnswersArray.includes(textColor)) {
+          this.temporaryAnswersArray.splice(
+            this.temporaryAnswersArray.indexOf(textColor),
+            1
+          );
+        } else {
+          this.temporaryAnswersArray.push(textColor);
+        }
       } else {
         this.answers[this.currentPotential - 1] = textColor;
         if (this.currentPotential === 9) {

@@ -10,6 +10,7 @@
           :key="el.color"
           :color="el.color"
           :textColor="el.textColor"
+          :currentPotential="currentPotential"
           @click="choicedColor(el.textColor)"
         />
       </div>
@@ -25,7 +26,7 @@
       <div class="colors-choiced-text-and-button">
         <ol>
           <li v-for="color in answers" :key="color">
-            {{ color }}
+            {{ typeof color === "object" ? color.join(", ") : color }}
           </li>
         </ol>
       </div>
@@ -111,6 +112,7 @@ export default {
 }
 
 .colors-choiced-text-and-button ol li {
+  font-size: 14px;
   padding: 5px 0;
 }
 </style>
