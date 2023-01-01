@@ -14,11 +14,16 @@
           @click="choicedColor(el.textColor)"
         />
       </div>
-      <secondary-button
-        v-if="currentPotential >= 7 && currentPotential <= 9"
-        @click="nextPotential"
-        >Далее</secondary-button
-      >
+      <div class="error-and-button">
+        <p class="error" :style="{ opacity: isError ? '1' : '0' }">
+          Выберите хотя бы один цвет
+        </p>
+        <secondary-button
+          v-if="currentPotential >= 7 && currentPotential <= 9"
+          @click="nextPotential"
+          >Далее</secondary-button
+        >
+      </div>
     </div>
 
     <div class="colors-choiced-wrap">
@@ -45,6 +50,10 @@ export default {
     },
     currentPotential: {
       type: Number,
+      required: true,
+    },
+    isError: {
+      type: Boolean,
       required: true,
     },
   },
@@ -114,5 +123,16 @@ export default {
 .colors-choiced-text-and-button ol li {
   font-size: 14px;
   padding: 5px 0;
+}
+
+.error-and-button {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.error {
+  color: #c21c0d;
 }
 </style>

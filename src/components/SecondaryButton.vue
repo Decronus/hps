@@ -10,6 +10,7 @@ export default {
 
 <style scoped>
 .secondary-button {
+  display: flex;
   align-self: flex-end;
   padding: 10px 20px;
   border: 1px solid #28282828;
@@ -18,7 +19,6 @@ export default {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  margin-top: 30px;
 }
 
 .secondary-button:hover {

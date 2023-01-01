@@ -9,6 +9,7 @@
       @choiced="setAnswer"
       @next="nextPotential"
       :answers="answers"
+      :isError="isError"
       :currentPotential="currentPotential"
     />
   </div>
@@ -21,6 +22,7 @@ export default {
       currentPotential: 1,
       answers: [],
       temporaryAnswersArray: [],
+      isError: false,
     };
   },
   methods: {
@@ -48,12 +50,17 @@ export default {
       }
     },
     nextPotential() {
+      if (!this.temporaryAnswersArray[0]) {
+        this.isError = true;
+        return;
+      }
       this.answers[this.currentPotential - 1] = this.temporaryAnswersArray;
       this.temporaryAnswersArray = [];
       if (this.currentPotential === 9) {
         this.currentPotential = 0;
         return;
       }
+      this.isError = false;
       this.currentPotential += 1;
     },
   },
