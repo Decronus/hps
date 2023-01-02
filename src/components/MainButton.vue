@@ -10,7 +10,7 @@ export default {
 
 <style scoped>
 .main-button {
-  padding: 20px 40px;
+  padding: 16px 30px;
   border-radius: 8px;
   background: #2d9b0c;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);

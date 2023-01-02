@@ -1,9 +1,6 @@
 <template>
   <div class="colors-wrap">
-    <div
-      class="colors-group-and-buttons"
-      v-if="answers.length < 9 || currentPotential !== 0"
-    >
+    <div class="colors-group-and-buttons" v-if="currentPotential !== 0">
       <div class="colors-group">
         <color-card
           v-for="el of colors"
@@ -14,28 +11,33 @@
           @click="choicedColor(el.textColor)"
         />
       </div>
-      <div class="error-and-button">
+      <!-- <div class="error-and-button">
         <p class="error" :style="{ opacity: isError ? '1' : '0' }">
           Выберите хотя бы один цвет
-        </p>
-        <secondary-button
+        </p> -->
+      <!-- <secondary-button
           v-if="currentPotential >= 7 && currentPotential <= 9"
           @click="nextPotential"
           >Далее</secondary-button
-        >
-      </div>
+        > -->
+      <!-- </div> -->
     </div>
 
     <div class="colors-choiced-wrap">
-      <h2>Выбранные&nbsp;цвета</h2>
-      <div class="colors-choiced-text-and-button">
-        <ol>
-          <li v-for="color in answers" :key="color">
-            {{ typeof color === "object" ? color.join(", ") : color }}
-          </li>
-        </ol>
+      <h3>Выбранные&nbsp;цвета</h3>
+      <div class="colors-choiced-text">
+        <p v-for="(color, index) in answers" :key="color">
+          {{
+            index + 1 >= 10
+              ? `Хобби ${index - 5}. `
+              : `Потенциал ${index + 1}. `
+          }}
+          <strong>{{ color }}</strong>
+        </p>
       </div>
-      <main-button :="disabledButton">СОЗДАТЬ&nbsp;ОТЧЕТ</main-button>
+      <main-button :="disabledButton" @click="showFinalReport"
+        >СОЗДАТЬ&nbsp;ОТЧЕТ</main-button
+      >
     </div>
   </div>
 </template>
@@ -43,20 +45,19 @@
 <script>
 export default {
   name: "colors-wrap",
+
   props: {
     answers: {
       type: Array,
       required: true,
     },
+
     currentPotential: {
       type: Number,
       required: true,
     },
-    isError: {
-      type: Boolean,
-      required: true,
-    },
   },
+
   data() {
     return {
       colors: [
@@ -72,23 +73,30 @@ export default {
       ],
     };
   },
+
   methods: {
     choicedColor(textColor) {
       this.$emit("choiced", textColor);
       console.log(textColor);
     },
+
     nextPotential() {
       this.$emit("next");
     },
+
+    showFinalReport() {
+      this.$emit("show");
+    },
   },
+
   computed: {
     disabledButton() {
       return {
         style: {
-          background: this.answers.length < 9 ? "#cccccc" : undefined,
-          boxShadow: this.answers.length < 9 ? "none" : undefined,
-          pointerEvents: this.answers.length < 9 ? "none" : undefined,
-          cursor: this.answers.length < 9 ? "none" : undefined,
+          background: this.answers.length < 12 ? "#cccccc" : undefined,
+          boxShadow: this.answers.length < 12 ? "none" : undefined,
+          pointerEvents: this.answers.length < 12 ? "none" : undefined,
+          cursor: this.answers.length < 12 ? "none" : undefined,
         },
       };
     },
@@ -101,14 +109,14 @@ export default {
   width: 100%;
   padding: 66px 40px 0 40px;
   display: flex;
-  gap: 50px;
+  gap: 40px;
 }
 
 .colors-group {
   display: grid;
   grid-template-columns: repeat(3, 260px);
   grid-template-rows: repeat(3, 138px);
-  gap: 44px;
+  gap: 20px;
 }
 
 .colors-group-and-buttons {
@@ -116,13 +124,13 @@ export default {
   flex-direction: column;
 }
 
-.colors-choiced-text-and-button {
-  padding: 30px 0 30px 18px;
+.colors-choiced-text {
+  padding: 20px 0;
 }
 
-.colors-choiced-text-and-button ol li {
+.colors-choiced-text p {
   font-size: 14px;
-  padding: 5px 0;
+  margin: 5px 0;
 }
 
 .error-and-button {

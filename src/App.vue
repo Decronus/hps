@@ -1,69 +1,96 @@
 <template>
   <div class="app">
     <side-nav
+      v-if="!isVisibleFinalReport"
       @change="setNewPotential"
       :answers="answers"
       :currentPotential="currentPotential"
     />
     <colors-wrap
+      v-if="!isVisibleFinalReport"
       @choiced="setAnswer"
-      @next="nextPotential"
+      @show="setIsVisibleFinalReport"
       :answers="answers"
-      :isError="isError"
       :currentPotential="currentPotential"
     />
+    <final-report v-if="isVisibleFinalReport" />
   </div>
 </template>
 
 <script>
+import FinalReport from "./components/FinalReport.vue";
 export default {
+  components: { FinalReport },
   data() {
     return {
       currentPotential: 1,
       answers: [],
       temporaryAnswersArray: [],
-      isError: false,
+      isVisibleFinalReport: false,
     };
   },
+
   methods: {
     setNewPotential(newPotential) {
       this.currentPotential = +newPotential;
     },
 
     setAnswer(textColor) {
-      if (this.currentPotential >= 7 && this.currentPotential <= 9) {
-        if (this.temporaryAnswersArray.includes(textColor)) {
-          this.temporaryAnswersArray.splice(
-            this.temporaryAnswersArray.indexOf(textColor),
-            1
-          );
-        } else {
-          this.temporaryAnswersArray.push(textColor);
-        }
-      } else {
-        this.answers[this.currentPotential - 1] = textColor;
-        if (this.currentPotential === 9) {
-          this.currentPotential = 0;
-          return;
-        }
-        this.currentPotential += 1;
-      }
-    },
-    nextPotential() {
-      if (!this.temporaryAnswersArray[0]) {
-        this.isError = true;
-        return;
-      }
-      this.answers[this.currentPotential - 1] = this.temporaryAnswersArray;
-      this.temporaryAnswersArray = [];
-      if (this.currentPotential === 9) {
+      this.answers[this.currentPotential - 1] = textColor;
+      if (this.currentPotential === 12) {
         this.currentPotential = 0;
         return;
       }
-      this.isError = false;
       this.currentPotential += 1;
     },
+    setIsVisibleFinalReport() {
+      this.isVisibleFinalReport = !this.isVisibleFinalReport;
+    },
   },
+
+  //   nextPotential() {
+  //     if (this.currentPotential === 9) {
+  //       this.currentPotential = 0;
+  //       return;
+  //     }
+  //   },
+
+  // setAnswer(textColor) {
+  //   if (this.currentPotential >= 7 && this.currentPotential <= 9) {
+  //     if (this.temporaryAnswersArray.includes(textColor)) {
+  //       this.temporaryAnswersArray.splice(
+  //         this.temporaryAnswersArray.indexOf(textColor),
+  //         1
+  //       );
+  //     } else {
+  //       this.temporaryAnswersArray.push(textColor);
+  //     }
+  //   } else {
+  //     this.answers[this.currentPotential - 1] = textColor;
+  //     if (this.currentPotential === 12) {
+  //       this.currentPotential = 0;
+  //       return;
+  //     }
+  //     this.currentPotential += 1;
+  //   }
+  // },
+
+  // nextPotential() {
+  //   if (!this.temporaryAnswersArray[0]) {
+  //     this.isError = true;
+  //     return;
+  //   }
+  //   this.answers[this.currentPotential - 1] = this.temporaryAnswersArray;
+  //   this.temporaryAnswersArray = [];
+
+  //   if (this.currentPotential === 9) {
+  //     this.isError = false;
+  //     this.currentPotential = 0;
+  //     return;
+  //   }
+  //   this.isError = false;
+  //   this.currentPotential += 1;
+  // },
 };
 </script>
 

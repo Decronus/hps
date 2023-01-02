@@ -1,14 +1,14 @@
 <template>
   <div class="side-nav">
     <p
-      v-for="potential of potentialsAmount"
-      :key="potential"
-      :id="potential"
-      :="setStyleProperty(currentPotential, potential)"
+      v-for="n of 12"
+      :key="n"
+      :id="n"
+      :="setStyleProperty(currentPotential, n)"
       class="side-nav-el"
       @click="changePotential"
     >
-      Потенциал&nbsp;{{ potential }}
+      {{ n <= 9 ? `Потенциал&nbsp;${n}` : `Хобби ${n - 6}` }}
     </p>
   </div>
 </template>
@@ -16,6 +16,7 @@
 <script>
 export default {
   name: "side-nav",
+
   props: {
     currentPotential: {
       type: Number,
@@ -26,15 +27,12 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      potentialsAmount: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    };
-  },
+
   methods: {
     changePotential(event) {
       this.$emit("change", event.target.id);
     },
+
     setStyleProperty(currentPotential, potential) {
       return {
         style: {

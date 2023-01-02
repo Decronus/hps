@@ -1,7 +1,9 @@
 <template>
   <div
     class="color-card-wrap"
-    :style="{ boxShadow: isChecked ? '0px 4px 10px red' : undefined }"
+    :style="{
+      boxShadow: isChecked ? '0px 3px 10px #3CAAE8' : undefined,
+    }"
     @click="setIsChecked"
   >
     <div class="color-area" :style="{ background: color }"></div>
@@ -28,25 +30,30 @@
 <script>
 export default {
   name: "color-card",
+
   props: {
     color: {
       type: String,
       required: true,
     },
+
     textColor: {
       type: String,
       required: true,
     },
+
     currentPotential: {
       type: Number,
       required: true,
     },
   },
+
   data() {
     return {
       isChecked: false,
     };
   },
+
   methods: {
     cons() {
       console.log(`click`);
@@ -55,6 +62,7 @@ export default {
       this.isChecked = !this.isChecked;
     },
   },
+
   watch: {
     currentPotential() {
       this.isChecked = false;
