@@ -56,16 +56,28 @@
         деятельности или дома).
       </p>
 
-      <h3 class="subtitle">Описание 1 ряда:</h3>
       <div class="potential-group">
+        <h3 class="subtitle">Описание 1 ряда:</h3>
         <p>
           <strong>1 ПОТЕНЦИАЛ</strong> – ваша уникальность/экспертность. Через
           данный потенциал человек воспринимает, понимает и анализирует мир,
           запоминает информацию, может понимать, чего действительно хочет – ваша
           Интуиция.
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[0]) }"
+          ></div>
+          <p>{{ answers[0] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential1[answers[0]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
@@ -78,8 +90,20 @@
           популярным и именно через него определяют в какой сфере лучше выбрать
           свою профессию.
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[1]) }"
+          ></div>
+          <p>{{ answers[1] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential2[answers[1]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
@@ -90,38 +114,83 @@
           человек непосредственно делает, чтобы достичь цели по Второму
           потенциалу.
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[2]) }"
+          ></div>
+          <p>{{ answers[2] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential3[answers[2]]"
+        ></div>
       </div>
 
-      <h3 class="subtitle">Описание 2 ряда:</h3>
-      <p>
-        Целевая аудитория (ЦА) = ваш потенциальный клиент (запросы, с которыми
-        приходят клиенты) и наполнение (хобби)
-      </p>
-
       <div class="potential-group">
+        <h3 class="subtitle">Описание 2 ряда:</h3>
+        <p>
+          Целевая аудитория (ЦА) = ваш потенциальный клиент (запросы, с которыми
+          приходят клиенты) и наполнение (хобби)
+        </p>
         <p>
           <strong>4 ПОТЕНЦИАЛ</strong> – это боль/проблема вашего клиента,
           которую он может даже не осознавать.
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[3]) }"
+          ></div>
+          <p>{{ answers[3] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential4[answers[3]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
           <strong>5 ПОТЕНЦИАЛ</strong> – отвечает за то, с какой целью к вам
           приходят люди/клиенты (какой у них запрос)
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[4]) }"
+          ></div>
+          <p>{{ answers[4] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential5[answers[4]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
           <strong>6 ПОТЕНЦИАЛ</strong> – отвечает за результат, который получают
           Клиенты после взаимодействия с вами.
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[5]) }"
+          ></div>
+          <p>{{ answers[5] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential6[answers[5]]"
+        ></div>
       </div>
+
+      <hr />
 
       <p>
         <strong>Наполнение хобби</strong> – для достижения целей отдых так же
@@ -144,8 +213,20 @@
           деятельности, - 1 потенциала, куда переключить свое восприятие чтобы
           восстановиться/наполниться.
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[9]) }"
+          ></div>
+          <p>{{ answers[9] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.hobby4[answers[9]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
@@ -154,8 +235,20 @@
           других, чтобы получить вдохновение для основной цели по 2-му
           потенциалу
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[10]) }"
+          ></div>
+          <p>{{ answers[10] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.hobby5[answers[10]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
@@ -163,33 +256,77 @@
           (вторичный инструмент) – отдых от инструмента в деятельности (3-ий
           потенциал):
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[11]) }"
+          ></div>
+          <p>{{ answers[11] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.hobby6[answers[11]]"
+        ></div>
       </div>
 
-      <h3 class="subtitle">Описание 3 ряда:</h3>
-      <p>
-        Слабые качества (действия), которые необходимо делегировать, у вас это:
-      </p>
-
       <div class="potential-group">
+        <h3 class="subtitle">Описание 3 ряда:</h3>
+        <p>
+          Слабые качества (действия), которые необходимо делегировать, у вас
+          это:
+        </p>
         <p>
           <strong>7 ПОТЕНЦИАЛ</strong>
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[6]) }"
+          ></div>
+          <p>{{ answers[6] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential7[answers[6]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
           <strong>8 ПОТЕНЦИАЛ</strong>
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[7]) }"
+          ></div>
+          <p>{{ answers[7] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential8[answers[7]]"
+        ></div>
       </div>
+
+      <hr />
 
       <div class="potential-group">
         <p>
           <strong>9 ПОТЕНЦИАЛ</strong>
         </p>
-        <p>* Сюда будет вставлен текст *</p>
+        <div class="template-color-wrap">
+          <div
+            class="color-wrap-rect"
+            :style="{ background: findColor(colors, answers[8]) }"
+          ></div>
+          <p>{{ answers[8] }}</p>
+        </div>
+        <div
+          class="template-text-wrap"
+          v-html="dbSnapshot.potential9[answers[8]]"
+        ></div>
       </div>
     </div>
     <main-button @click="savePDF">Сохранить в PDF</main-button>
@@ -198,18 +335,29 @@
 
 <script>
 import html2pdf from "html2pdf.js";
+import { dbSnapshot } from "../firebase";
+
 export default {
   name: "final-report",
+
+  data() {
+    return {
+      dbSnapshot: dbSnapshot,
+    };
+  },
+
   props: {
     answers: {
       type: Array,
       require: true,
     },
+
     colors: {
       type: Array,
       required: true,
     },
   },
+
   methods: {
     savePDF() {
       try {
@@ -227,6 +375,7 @@ export default {
         alert("Произошла ошибка, попробуйте еще раз");
       }
     },
+
     findColor(colors, answer) {
       for (let color of colors) {
         if (color.textColor === answer) {
@@ -244,7 +393,7 @@ h3 {
 }
 
 p {
-  margin-bottom: 14px;
+  margin-bottom: 20px;
 }
 
 .final-report-wrap {
@@ -263,6 +412,7 @@ p {
 
 .potential-group {
   margin-bottom: 30px;
+  margin-top: 10px;
 }
 
 .title {
@@ -283,14 +433,24 @@ p {
   margin-bottom: 20px;
 }
 
+.template-color-wrap,
 .potentials-table-color-wrap {
   display: flex;
+  align-items: flex-start;
   gap: 10px;
+}
+
+.template-color-wrap p {
+  font-weight: 700;
 }
 
 .color-wrap-rect {
   width: 20px;
   height: 20px;
   background: black;
+}
+
+hr {
+  margin-bottom: 30px;
 }
 </style>
