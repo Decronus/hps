@@ -5,6 +5,8 @@
       @change="setNewPotential"
       :answers="answers"
       :currentPotential="currentPotential"
+      :isEditMode="isEditMode"
+      @toggle-edit-mode="toggleEditMode"
     />
     <colors-wrap
       v-if="!isVisibleFinalReport"
@@ -14,6 +16,7 @@
       :currentPotential="currentPotential"
       :colors="colors"
       @open-editor="openEditor"
+      :isEditMode="isEditMode"
     />
     <final-report
       v-if="isVisibleFinalReport"
@@ -39,6 +42,7 @@ export default {
       temporaryAnswersArray: [],
       isVisibleFinalReport: false,
       isVisibleEditor: false,
+      isEditMode: false,
       currentTextColorForEditor: "",
       colors: [
         { color: "#48BF23", textColor: "Изумруд" },
@@ -54,7 +58,20 @@ export default {
     };
   },
 
+  watch: {
+    currentPotential() {
+      localStorage.setItem("currentPotential", this.currentPotential);
+    },
+  },
+
   methods: {
+    toggleEditMode() {
+      this.isEditMode = !this.isEditMode;
+      localStorage.setItem("isEditMode", this.isEditMode);
+      this.currentPotential = 1;
+      this.answers = [];
+    },
+
     setNewPotential(newPotential) {
       this.currentPotential = +newPotential;
     },
@@ -76,8 +93,27 @@ export default {
       console.log("curtextcolor", this.currentTextColorForEditor);
     },
     closeEditor() {
-      this.isVisibleEditor = false;
+      const close = confirm(
+        "Несохранненые изменения будут потеряны. Вы действительно хотите выйти?"
+      );
+      if (close) {
+        this.isVisibleEditor = false;
+        location.reload();
+      }
     },
+  },
+
+  mounted() {
+    if (localStorage.getItem("isEditMode")) {
+      if (localStorage.getItem("isEditMode") === "true") {
+        this.isEditMode = true;
+        this.currentPotential = +localStorage.getItem("currentPotential");
+      } else {
+        this.isEditMode = false;
+      }
+    } else {
+      localStorage.setItem("isEditMode", false);
+    }
   },
 };
 </script>

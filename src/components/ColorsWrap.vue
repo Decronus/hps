@@ -8,7 +8,8 @@
           :color="el.color"
           :textColor="el.textColor"
           :currentPotential="currentPotential"
-          @click="choicedColor(el.textColor)"
+          :isEditMode="isEditMode"
+          @click="!isEditMode && choicedColor(el.textColor)"
           @open-editor="openEditor(el.textColor)"
         />
       </div>
@@ -50,6 +51,11 @@ export default {
 
     colors: {
       type: Array,
+      required: true,
+    },
+
+    isEditMode: {
+      type: Boolean,
       required: true,
     },
   },

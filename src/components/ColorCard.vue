@@ -3,7 +3,7 @@
     <div class="color-area" :style="{ background: color }"></div>
     <div class="color-text-and-edit">
       <p class="color-text">{{ textColor }}</p>
-      <div class="edit-image" @click.stop @click="openEditor">
+      <div class="edit-image" @click.stop @click="openEditor" v-if="isEditMode">
         <svg
           width="14"
           height="14"
@@ -38,6 +38,11 @@ export default {
 
     currentPotential: {
       type: Number,
+      required: true,
+    },
+
+    isEditMode: {
+      type: Boolean,
       required: true,
     },
   },

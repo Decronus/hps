@@ -10,6 +10,14 @@
     >
       {{ n <= 9 ? `Потенциал&nbsp;${n}` : `Хобби ${n - 6}` }}
     </p>
+
+    <button class="edit-mode-button" @click="toggleEditMode">
+      <div
+        class="edit-mode-indicator"
+        :style="{ background: isEditMode ? 'green' : undefined }"
+      ></div>
+      Режим<br />редактирования
+    </button>
   </div>
 </template>
 
@@ -22,13 +30,23 @@ export default {
       type: Number,
       required: true,
     },
+
     answers: {
       type: Array,
+      required: true,
+    },
+
+    isEditMode: {
+      type: Boolean,
       required: true,
     },
   },
 
   methods: {
+    toggleEditMode() {
+      this.$emit("toggle-edit-mode");
+    },
+
     changePotential(event) {
       this.$emit("change", event.target.id);
     },
@@ -41,9 +59,16 @@ export default {
             currentPotential === potential
               ? "-4px 4px 5px rgba(0, 0, 0, 0.05)"
               : undefined,
-          pointerEvents:
-            this.answers.length < potential - 1 ? "none" : undefined,
-          color: this.answers.length < potential - 1 ? "grey" : undefined,
+          pointerEvents: !this.isEditMode
+            ? this.answers.length < potential - 1
+              ? "none"
+              : undefined
+            : undefined,
+          color: !this.isEditMode
+            ? this.answers.length < potential - 1
+              ? "grey"
+              : undefined
+            : undefined,
         },
       };
     },
@@ -74,5 +99,31 @@ export default {
 
 .side-nav-el:hover {
   background: #e9e9e9;
+}
+
+.edit-mode-button {
+  position: relative;
+  margin-top: 50px;
+  padding: 10px;
+  color: #666;
+  border-radius: 6px;
+  outline: none;
+  border: 1px solid #666;
+  cursor: pointer;
+}
+
+.edit-mode-button:hover {
+  background: #ddd;
+}
+
+.edit-mode-indicator {
+  position: absolute;
+  top: 12.5px;
+  left: 24px;
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+  background: rgb(181, 4, 4);
 }
 </style>
