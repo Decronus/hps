@@ -12,7 +12,7 @@ export default {
 .secondary-button {
   display: flex;
   align-self: flex-end;
-  padding: 10px 20px;
+  padding: 16px 30px;
   border: 1px solid #28282828;
   background: none;
   border-radius: 8px;

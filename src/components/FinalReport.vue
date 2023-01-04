@@ -99,7 +99,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential2[answers[1]]"
+          v-html="dbSnapshot?.potential2[answers[1]]"
         ></div>
       </div>
 
@@ -123,7 +123,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential3[answers[2]]"
+          v-html="dbSnapshot?.potential3[answers[2]]"
         ></div>
       </div>
 
@@ -146,7 +146,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential4[answers[3]]"
+          v-html="dbSnapshot?.potential4[answers[3]]"
         ></div>
       </div>
 
@@ -166,7 +166,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential5[answers[4]]"
+          v-html="dbSnapshot?.potential5[answers[4]]"
         ></div>
       </div>
 
@@ -186,7 +186,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential6[answers[5]]"
+          v-html="dbSnapshot?.potential6[answers[5]]"
         ></div>
       </div>
 
@@ -222,7 +222,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.hobby4[answers[9]]"
+          v-html="dbSnapshot?.hobby4[answers[9]]"
         ></div>
       </div>
 
@@ -244,7 +244,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.hobby5[answers[10]]"
+          v-html="dbSnapshot?.hobby5[answers[10]]"
         ></div>
       </div>
 
@@ -265,7 +265,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.hobby6[answers[11]]"
+          v-html="dbSnapshot?.hobby6[answers[11]]"
         ></div>
       </div>
 
@@ -287,7 +287,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential7[answers[6]]"
+          v-html="dbSnapshot?.potential7[answers[6]]"
         ></div>
       </div>
 
@@ -306,7 +306,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential8[answers[7]]"
+          v-html="dbSnapshot?.potential8[answers[7]]"
         ></div>
       </div>
 
@@ -325,7 +325,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential9[answers[8]]"
+          v-html="dbSnapshot?.potential9[answers[8]]"
         ></div>
       </div>
     </div>
@@ -335,7 +335,7 @@
 
 <script>
 import html2pdf from "html2pdf.js";
-import { dbSnapshot } from "../firebase";
+import { dbSnapshot } from "@/firebase";
 
 export default {
   name: "final-report",

@@ -9,18 +9,9 @@
           :textColor="el.textColor"
           :currentPotential="currentPotential"
           @click="choicedColor(el.textColor)"
+          @open-editor="openEditor(el.textColor)"
         />
       </div>
-      <!-- <div class="error-and-button">
-        <p class="error" :style="{ opacity: isError ? '1' : '0' }">
-          Выберите хотя бы один цвет
-        </p> -->
-      <!-- <secondary-button
-          v-if="currentPotential >= 7 && currentPotential <= 9"
-          @click="nextPotential"
-          >Далее</secondary-button
-        > -->
-      <!-- </div> -->
     </div>
 
     <div class="colors-choiced-wrap">
@@ -66,7 +57,6 @@ export default {
   methods: {
     choicedColor(textColor) {
       this.$emit("choiced", textColor);
-      console.log(textColor);
     },
 
     nextPotential() {
@@ -75,6 +65,9 @@ export default {
 
     showFinalReport() {
       this.$emit("show");
+    },
+    openEditor(textColor) {
+      this.$emit("open-editor", textColor);
     },
   },
 

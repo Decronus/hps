@@ -13,11 +13,19 @@
       :answers="answers"
       :currentPotential="currentPotential"
       :colors="colors"
+      @open-editor="openEditor"
     />
     <final-report
       v-if="isVisibleFinalReport"
       :answers="answers"
       :colors="colors"
+      :dbSnapshot="dbSnapshot"
+    />
+    <content-editor
+      v-if="isVisibleEditor"
+      @close-editor="closeEditor"
+      :currentTextColorForEditor="currentTextColorForEditor"
+      :currentPotential="currentPotential"
     />
   </div>
 </template>
@@ -30,6 +38,8 @@ export default {
       answers: [],
       temporaryAnswersArray: [],
       isVisibleFinalReport: false,
+      isVisibleEditor: false,
+      currentTextColorForEditor: "",
       colors: [
         { color: "#48BF23", textColor: "Изумруд" },
         { color: "#F19E38", textColor: "Цитрин" },
@@ -60,51 +70,15 @@ export default {
     setIsVisibleFinalReport() {
       this.isVisibleFinalReport = !this.isVisibleFinalReport;
     },
+    openEditor(textColor) {
+      this.isVisibleEditor = true;
+      this.currentTextColorForEditor = textColor;
+      console.log("curtextcolor", this.currentTextColorForEditor);
+    },
+    closeEditor() {
+      this.isVisibleEditor = false;
+    },
   },
-
-  //   nextPotential() {
-  //     if (this.currentPotential === 9) {
-  //       this.currentPotential = 0;
-  //       return;
-  //     }
-  //   },
-
-  // setAnswer(textColor) {
-  //   if (this.currentPotential >= 7 && this.currentPotential <= 9) {
-  //     if (this.temporaryAnswersArray.includes(textColor)) {
-  //       this.temporaryAnswersArray.splice(
-  //         this.temporaryAnswersArray.indexOf(textColor),
-  //         1
-  //       );
-  //     } else {
-  //       this.temporaryAnswersArray.push(textColor);
-  //     }
-  //   } else {
-  //     this.answers[this.currentPotential - 1] = textColor;
-  //     if (this.currentPotential === 12) {
-  //       this.currentPotential = 0;
-  //       return;
-  //     }
-  //     this.currentPotential += 1;
-  //   }
-  // },
-
-  // nextPotential() {
-  //   if (!this.temporaryAnswersArray[0]) {
-  //     this.isError = true;
-  //     return;
-  //   }
-  //   this.answers[this.currentPotential - 1] = this.temporaryAnswersArray;
-  //   this.temporaryAnswersArray = [];
-
-  //   if (this.currentPotential === 9) {
-  //     this.isError = false;
-  //     this.currentPotential = 0;
-  //     return;
-  //   }
-  //   this.isError = false;
-  //   this.currentPotential += 1;
-  // },
 };
 </script>
 

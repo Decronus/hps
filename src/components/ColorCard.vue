@@ -1,15 +1,9 @@
 <template>
-  <div
-    class="color-card-wrap"
-    :style="{
-      boxShadow: isChecked ? '0px 3px 10px #3CAAE8' : undefined,
-    }"
-    @click="setIsChecked"
-  >
+  <div class="color-card-wrap">
     <div class="color-area" :style="{ background: color }"></div>
     <div class="color-text-and-edit">
       <p class="color-text">{{ textColor }}</p>
-      <div class="edit-image" @click.stop @click="cons">
+      <div class="edit-image" @click.stop @click="openEditor">
         <svg
           width="14"
           height="14"
@@ -48,24 +42,9 @@ export default {
     },
   },
 
-  data() {
-    return {
-      isChecked: false,
-    };
-  },
-
   methods: {
-    cons() {
-      console.log(`click`);
-    },
-    setIsChecked() {
-      this.isChecked = !this.isChecked;
-    },
-  },
-
-  watch: {
-    currentPotential() {
-      this.isChecked = false;
+    openEditor() {
+      this.$emit("open-editor");
     },
   },
 };

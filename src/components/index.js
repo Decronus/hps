@@ -4,6 +4,7 @@ import SideNav from "./SideNav";
 import MainButton from "./MainButton";
 import SecondaryButton from "./SecondaryButton";
 import FinalReport from "./FinalReport";
+import ContentEditor from "./ContentEditor";
 
 export default [
   ColorCard,
@@ -12,4 +13,5 @@ export default [
   MainButton,
   SecondaryButton,
   FinalReport,
+  ContentEditor,
 ];
