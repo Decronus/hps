@@ -1,24 +1,73 @@
+<template>
+  <div class="editor-background">
+    <p class="text-loader">Загрузка...</p>
+    <div class="editor-wrap">
+      <h2>
+        Изменить текст для цвета «{{ currentTextColorForEditor }}» Потенциала
+        {{ currentPotential }}
+      </h2>
+      <Editor
+        api-key="o3crh8ud95s2ltixocc9jzhrnw6bwwx3eq3rug53lqhsf5sa"
+        :init="{
+          plugins: 'lists link image table code help wordcount',
+          placeholder: 'Загрузка...',
+        }"
+      />
+      <div class="buttons-wrap">
+        <secondary-button @click="closeEditor"
+          >Выйти без сохранения</secondary-button
+        >
+        <main-button @click="updateDbText">Сохранить и выйти</main-button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import Editor from "@tinymce/tinymce-vue";
+import { onMounted } from "vue";
+import { dbSnapshot } from "../firebase";
+import { getDatabase, ref, child, push, update } from "firebase/database";
 
-const data = [
-  {
-    id: 1,
-    name: "Alex",
-    text: "<p>Какой-то <strong>рыб<u>ный</strong> те</u>кст</p>",
-  },
-];
+const props = defineProps(["currentTextColorForEditor", "currentPotential"]);
 
-function getEditorContent() {
-  var myContent = tinymce.activeEditor.getContent();
-  data[0].text = myContent;
-  console.log(myContent);
-  console.log(typeof myContent);
+function updateDbText() {
+  const db = getDatabase();
+
+  const updates = {};
+  updates[
+    "/" +
+      "potential" +
+      props.currentPotential +
+      "/" +
+      props.currentTextColorForEditor
+  ] = tinymce.activeEditor.getContent();
+
+  return update(ref(db), updates);
 }
 
-function setEditorContent() {
-  tinymce.activeEditor.setContent(data[0].text);
-}
+// function getEditorContent() {
+//   return tinymce.activeEditor.getContent();
+// }
+
+// function setNewDbValue() {
+//   const db = getDatabase();
+
+//   set(ref(db, "db/" + "potential" + props.currentPotential), {
+//     [props.currentTextColorForEditor]: getEditorContent(),
+//   });
+// }
+
+onMounted(() => {
+  console.log(dbSnapshot);
+  setTimeout(() => {
+    tinymce.activeEditor.setContent(
+      dbSnapshot["potential" + props.currentPotential][
+        props.currentTextColorForEditor
+      ]
+    );
+  }, 1000);
+});
 </script>
 
 <script>
@@ -29,50 +78,10 @@ export default {
       this.$emit("close-editor");
     },
   },
-  props: {
-    currentTextColorForEditor: {
-      type: String,
-    },
-    currentPotential: {
-      type: Number,
-    },
-  },
 };
 </script>
 
-<template>
-  <div class="editor-background">
-    <div class="editor-wrap">
-      <h2>
-        Изменить текст для цвета «{{ currentTextColorForEditor }}» Потенциала
-        {{ currentPotential }}
-      </h2>
-      <Editor
-        api-key="o3crh8ud95s2ltixocc9jzhrnw6bwwx3eq3rug53lqhsf5sa"
-        :init="{
-          plugins: 'lists link image table code help wordcount',
-        }"
-      />
-      <div class="buttons-wrap">
-        <secondary-button @click="closeEditor"
-          >Выйти без сохранения</secondary-button
-        >
-        <main-button @click="getEditorContent">Сохранить и выйти</main-button>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style scoped>
-/* @media (min-width: 1024px) {
-  #sample {
-    display: flex;
-    flex-direction: column;
-    place-items: center;
-    width: 1000px;
-  }
-} */
-
 h2 {
   margin-bottom: 30px;
 }
@@ -87,6 +96,12 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.text-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 
 .editor-wrap {

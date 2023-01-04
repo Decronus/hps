@@ -64,8 +64,8 @@ export default {
 
 .side-nav-el {
   font-size: 16px;
-  line-height: 60px;
-  height: 60px;
+  line-height: 50px;
+  height: 50px;
   width: 100%;
   text-align: center;
   cursor: pointer;
