@@ -1,5 +1,5 @@
 <template>
-  <div class="color-card-wrap">
+  <div class="color-card-wrap" :style="{ pointerEvents: pointerEvents }">
     <div class="color-area" :style="{ background: color }"></div>
     <div class="color-text-and-edit">
       <p class="color-text">{{ textColor }}</p>
@@ -52,6 +52,12 @@ export default {
       this.$emit("open-editor");
     },
   },
+
+  computed: {
+    pointerEvents() {
+      return this.isEditMode ? "none" : "all";
+    },
+  },
 };
 </script>
 
@@ -82,6 +88,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 16px 0 16px;
+}
+
+.edit-image {
+  pointer-events: initial;
 }
 
 .edit-image svg:hover path {

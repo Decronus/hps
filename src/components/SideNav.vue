@@ -122,7 +122,6 @@ export default {
   left: 24px;
   width: 10px;
   height: 10px;
-
   border-radius: 50%;
   background: rgb(181, 4, 4);
 }

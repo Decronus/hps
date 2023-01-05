@@ -3,8 +3,12 @@
     <p class="text-loader">Загрузка...</p>
     <div class="editor-wrap">
       <h2>
-        Изменить текст для цвета «{{ currentTextColorForEditor }}» Потенциала
-        {{ currentPotential }}
+        Изменить текст для цвета «{{ currentTextColorForEditor }}»
+        {{
+          currentPotential >= 9
+            ? `для Хобби ${currentPotential - 6}. `
+            : `для Потенциала ${currentPotential}. `
+        }}
       </h2>
       <Editor
         api-key="o3crh8ud95s2ltixocc9jzhrnw6bwwx3eq3rug53lqhsf5sa"
