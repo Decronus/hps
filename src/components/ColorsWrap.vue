@@ -113,12 +113,12 @@ export default {
 }
 
 .colors-choiced-text {
-  padding: 20px 0;
+  padding: 16px 0;
 }
 
 .colors-choiced-text p {
   font-size: 14px;
-  margin: 5px 0;
+  margin: 12px 0;
 }
 
 .error-and-button {

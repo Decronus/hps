@@ -103,6 +103,8 @@ export default {
 
 .edit-mode-button {
   position: relative;
+  background: #f0f0f0;
+  font-size: 13px;
   margin-top: 50px;
   padding: 10px;
   color: #666;

@@ -1,9 +1,8 @@
 <template>
   <div class="editor-background">
-    <p class="text-loader">Загрузка...</p>
     <div class="editor-wrap">
       <h2>
-        Изменить текст для цвета «{{ currentTextColorForEditor }}»
+        Изменить текст цвета «{{ currentTextColorForEditor }}»
         {{
           currentPotential >= 9
             ? `для Хобби ${currentPotential - 6}. `
@@ -11,6 +10,7 @@
         }}
       </h2>
       <Editor
+        ref="editorRef"
         api-key="o3crh8ud95s2ltixocc9jzhrnw6bwwx3eq3rug53lqhsf5sa"
         :init="{
           plugins: 'lists link image table code help wordcount',
@@ -69,7 +69,7 @@ function updateDbText() {
     .then(() => {
       setTimeout(() => {
         isLoaderVisible.value = false;
-      }, 200);
+      }, 500);
     })
     .catch((err) => {
       isLoaderVisible.value = false;
@@ -84,12 +84,20 @@ function potentialOrHobby() {
 }
 
 onMounted(() => {
-  console.log(dbSnapshot);
-  setTimeout(() => {
-    tinymce.activeEditor.setContent(
-      dbSnapshot[potentialOrHobby()][props.currentTextColorForEditor]
-    );
-  }, 1000);
+  const tinyInterval = setInterval(() => {
+    try {
+      tinymce.activeEditor.setContent(
+        dbSnapshot[potentialOrHobby()][props.currentTextColorForEditor]
+      );
+      if (tinymce) {
+        setTimeout(() => {
+          clearInterval(tinyInterval);
+        }, 500);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, 50);
 });
 </script>
 

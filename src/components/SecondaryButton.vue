@@ -19,6 +19,7 @@ export default {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  font-size: 14px;
 }
 
 .secondary-button:hover {

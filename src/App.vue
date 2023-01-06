@@ -22,7 +22,6 @@
       v-if="isVisibleFinalReport"
       :answers="answers"
       :colors="colors"
-      :dbSnapshot="dbSnapshot"
     />
     <content-editor
       v-if="isVisibleEditor"
@@ -94,7 +93,7 @@ export default {
     },
     closeEditor() {
       const close = confirm(
-        "Несохранненые изменения будут потеряны. Вы действительно хотите выйти?"
+        "Несохранненые изменения будут потеряны. \nВы действительно хотите выйти?"
       );
       if (close) {
         this.isVisibleEditor = false;
