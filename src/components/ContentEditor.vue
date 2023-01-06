@@ -49,6 +49,7 @@
 
 <script setup>
 import Editor from "@tinymce/tinymce-vue";
+import { getDatabase, ref, update } from "firebase/database";
 import { onMounted } from "vue";
 import { ref as vueRef } from "vue";
 

@@ -27,6 +27,7 @@
       :isEditMode="isEditMode"
       @open-editor="openDescriptionEditor"
       :dbSnapshot="dbSnapshot"
+      @after-saving-pdf="resetDataAfterSavingPDF"
     />
     <content-editor
       v-if="isVisibleEditor"
@@ -49,15 +50,17 @@ export default {
   data() {
     return {
       dbSnapshot: null,
-      currentPotential: 1,
+
       answers: [],
-      temporaryAnswersArray: [],
+      currentPotential: 1,
+      currentTextColorForEditor: "",
+      currentIdForEditor: "",
+
       isVisibleFinalReport: false,
       isVisibleFinalReportEditMode: false,
       isVisibleEditor: false,
       isEditMode: false,
-      currentTextColorForEditor: "",
-      currentIdForEditor: "",
+
       colors: [
         { color: "#48BF23", textColor: "Изумруд" },
         { color: "#F19E38", textColor: "Цитрин" },
@@ -89,6 +92,11 @@ export default {
   },
 
   methods: {
+    resetDataAfterSavingPDF() {
+      this.answers = [];
+      this.currentPotential = 1;
+    },
+
     toggleEditMode() {
       this.isEditMode = !this.isEditMode;
       localStorage.setItem("isEditMode", this.isEditMode);
@@ -128,7 +136,7 @@ export default {
       );
       if (close) {
         this.isVisibleEditor = false;
-        // location.reload();
+        location.reload();
       }
     },
   },

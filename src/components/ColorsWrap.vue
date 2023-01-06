@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="colors-choiced-wrap">
+    <div class="colors-choiced-wrap" v-if="answers.length > 0">
       <h3>Выбранные&nbsp;цвета</h3>
       <div class="colors-choiced-text">
         <p v-for="(color, index) in answers" :key="color">
@@ -27,7 +27,10 @@
           <strong>{{ color }}</strong>
         </p>
       </div>
-      <main-button :="disabledButton" @click="showFinalReport"
+      <main-button
+        :="disabledButton"
+        @click="showFinalReport"
+        v-if="answers.length === 12"
         >СОЗДАТЬ&nbsp;ОТЧЕТ</main-button
       >
     </div>

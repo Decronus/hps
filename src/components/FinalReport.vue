@@ -1,13 +1,18 @@
 <template>
   <div class="final-report-wrap">
-    <main-button v-if="!isEditMode" @click="savePDF"
-      >Сохранить в PDF</main-button
-    >
+    <div class="buttons-wrap" v-if="!isEditMode">
+      <secondary-button @click="setFinalReportFalse">Назад</secondary-button>
+      <main-button @click="savePDF">Сохранить в PDF</main-button>
+    </div>
+
     <main-button v-else @click="setFinalReportFalse">Назад</main-button>
 
     <div class="final-report-content" ref="PDF">
       <h1 class="template-title" v-if="isEditMode">РЕДАКТИРОВАНИЕ ШАБЛОНА</h1>
-
+      <p class="tip" v-if="isEditMode">
+        Кликните по необходимому абзацу для редактирования. <br />При наведении
+        на абзац, который можно отредактировать, курсор меняется на перчатку.
+      </p>
       <hr v-if="isEditMode" />
 
       <div
@@ -314,15 +319,20 @@
         ></div>
       </div>
     </div>
-    <main-button @click="savePDF">Сохранить в PDF</main-button>
+    <div class="buttons-wrap" v-if="!isEditMode">
+      <secondary-button @click="setFinalReportFalse">Назад</secondary-button>
+      <main-button @click="savePDF">Сохранить в PDF</main-button>
+    </div>
+    <main-button v-else @click="setFinalReportFalse">Назад</main-button>
   </div>
 </template>
 
 <script>
 import html2pdf from "html2pdf.js";
-// import { dbSnapshot } from "@/firebase";
+import SecondaryButton from "./SecondaryButton.vue";
 
 export default {
+  components: { SecondaryButton },
   name: "final-report",
 
   props: {
@@ -358,21 +368,24 @@ export default {
       this.$emit("set-final-report-false");
     },
 
+    afterSavingPDF() {
+      this.$emit("after-saving-pdf");
+    },
+
     savePDF() {
-      try {
-        const opt = {
-          margin: 0.6,
-          filename: "myfile.pdf",
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-          pagebreak: { mode: "avoid-all" },
-        };
-        const el = this.$refs.PDF;
-        html2pdf(el, opt);
-      } catch {
-        alert("Произошла ошибка, попробуйте еще раз");
-      }
+      const opt = {
+        margin: 0.6,
+        filename: "myfile.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        pagebreak: { mode: "avoid-all" },
+      };
+      const el = this.$refs.PDF;
+      html2pdf(el, opt).then(() => {
+        this.afterSavingPDF();
+        this.setFinalReportFalse();
+      });
     },
 
     findColor(colors, answer) {
@@ -421,7 +434,7 @@ p {
 }
 
 .template-title {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   text-align: center;
   text-decoration: underline;
 }
@@ -463,5 +476,16 @@ p {
 
 hr {
   margin-bottom: 30px;
+}
+
+.tip {
+  color: #aaa;
+  font-size: 12px;
+  text-align: center;
+}
+
+.buttons-wrap {
+  display: flex;
+  gap: 20px;
 }
 </style>
