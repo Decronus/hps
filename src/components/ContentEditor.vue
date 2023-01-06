@@ -15,7 +15,7 @@
         api-key="o3crh8ud95s2ltixocc9jzhrnw6bwwx3eq3rug53lqhsf5sa"
         :init="{
           plugins: 'lists link image table code help wordcount',
-          placeholder: 'Загрузка...',
+          placeholder: 'Введите текст...',
           menubar: false,
           toolbar: [
             { name: 'history', items: ['undo', 'redo'] },

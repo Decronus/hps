@@ -92,7 +92,7 @@ export default {
 .side-nav {
   width: 200px;
   height: 100vh;
-  padding-top: 50px;
+  padding-top: 40px;
   background: #f0f0f0;
   display: flex;
   flex-direction: column;
@@ -117,7 +117,7 @@ export default {
   position: relative;
   background: #f0f0f0;
   font-size: 13px;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   color: #666;
   border-radius: 6px;

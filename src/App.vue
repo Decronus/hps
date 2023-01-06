@@ -44,7 +44,7 @@
 
 <script>
 import { getDatabase, ref, child, get } from "firebase/database";
-import { dbSnapshot } from "@/firebase";
+import { dbSnapshot } from "./firebase";
 
 export default {
   data() {
@@ -83,12 +83,6 @@ export default {
     isVisibleFinalReport() {
       localStorage.setItem("isVisibleFinalReport", this.isVisibleFinalReport);
     },
-
-    // isEditMode() {
-    //   if (this.isEditMode === false) {
-    //     this.isVisibleFinalReportEditMode = false;
-    //   }
-    // },
   },
 
   methods: {

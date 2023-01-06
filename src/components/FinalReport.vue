@@ -10,17 +10,25 @@
     <div class="final-report-content" ref="PDF">
       <h1 class="template-title" v-if="isEditMode">РЕДАКТИРОВАНИЕ ШАБЛОНА</h1>
       <p class="tip" v-if="isEditMode">
-        Кликните по необходимому абзацу для редактирования. <br />При наведении
-        на абзац, который можно отредактировать, курсор меняется на перчатку.
+        Кликните по необходимому абзацу для редактирования.
       </p>
       <hr v-if="isEditMode" />
 
       <div
-        class="title"
+        :class="['title', { 'edit-elem': isEditMode }]"
         id="title"
         @click="openEditor"
         :style="{ cursor: pointer }"
         v-html="dbSnapshot?.template.title"
+      ></div>
+
+      <div
+        :class="{ 'edit-elem': isEditMode }"
+        id="subtitle"
+        @click="openEditor"
+        :style="{ cursor: pointer }"
+        style="margin-bottom: 50px"
+        v-html="dbSnapshot?.template.subtitle"
       ></div>
 
       <div class="potentials-table-wrap">
@@ -39,8 +47,10 @@
       </div>
 
       <div
+        :class="{ 'edit-elem': isEditMode }"
         id="descriptionMain"
         :style="{ cursor: pointer }"
+        style="margin-bottom: 60px"
         @click="openEditor"
         v-html="dbSnapshot?.template.descriptionMain"
       ></div>
@@ -48,6 +58,7 @@
       <div class="potential-group">
         <h3 class="subtitle">Описание 1 ряда:</h3>
         <div
+          :class="{ 'edit-elem': isEditMode }"
           id="description1"
           :style="{ cursor: pointer }"
           @click="openEditor"
@@ -70,16 +81,14 @@
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>2 ПОТЕНЦИАЛ</strong> – это ваше творчество (действия для себя
-          после того, как проанализировали Первым потенциалом), основная
-          внутренняя мотивация для достижения цели (миссия) + то каким вас
-          воспринимают и видят другие люди – ваш имидж (включая стиль одежды).
-          Через 2 Потенциал можно понять, как правильно выстраивать свое
-          позиционирование, продвижение, через него человек становится
-          популярным и именно через него определяют в какой сфере лучше выбрать
-          свою профессию.
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description2"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description2"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -96,14 +105,14 @@
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>3 ПОТЕНЦИАЛ</strong> – инструмент (навыки), с помощью которого
-          человек достигает своих целей наиболее быстро и эффективно. Ключ,
-          который открывает двери на пути к его цели, через который он может
-          помогать другим людям открывать какие-то двери к их целям. Это то, что
-          человек непосредственно делает, чтобы достичь цели по Второму
-          потенциалу.
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description3"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description3"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -119,14 +128,14 @@
 
       <div class="potential-group">
         <h3 class="subtitle">Описание 2 ряда:</h3>
-        <p>
-          Целевая аудитория (ЦА) = ваш потенциальный клиент (запросы, с которыми
-          приходят клиенты) и наполнение (хобби)
-        </p>
-        <p>
-          <strong>4 ПОТЕНЦИАЛ</strong> – это боль/проблема вашего клиента,
-          которую он может даже не осознавать.
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description4"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description4"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -143,10 +152,14 @@
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>5 ПОТЕНЦИАЛ</strong> – отвечает за то, с какой целью к вам
-          приходят люди/клиенты (какой у них запрос)
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description5"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description5"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -163,10 +176,14 @@
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>6 ПОТЕНЦИАЛ</strong> – отвечает за результат, который получают
-          Клиенты после взаимодействия с вами.
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description6"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description6"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -182,27 +199,24 @@
 
       <hr />
 
-      <p>
-        <strong>Наполнение хобби</strong> – для достижения целей отдых так же
-        важен, как и действия по потенциалам силы (30 % для второго ряда) и есть
-        такая особенность, что тот потенциал, который находится во 2-м ряду, он
-        наполняет тот потенциал, который находится над ним в 1-м ряду. Второй
-        ряд потенциалов – это наш «бензин» для достижения целей и нужно по нему
-        обязательно наполняться, вкладывать свои деньги, силы и время в это
-        наполнение. Потому что, наполняясь по второму ряду, мы получаем энергию,
-        возможности, ресурсы, а с помощью первого ряда потенциалов, мы реализуем
-        пришедшие в нашу жизнь возможности и ресурсы для создания ценности.
-      </p>
+      <div
+        :class="{ 'edit-elem': isEditMode }"
+        id="description7"
+        :style="{ cursor: pointer }"
+        style="margin-bottom: 20px"
+        @click="openEditor"
+        v-html="dbSnapshot?.template.description7"
+      ></div>
 
       <div class="potential-group">
-        <p>
-          <strong>4 ПОТЕНЦИАЛ</strong> – хобби восприятия (то, что человек любит
-          воспринимать/анализировать) - какую узкую проблему вы настроены
-          анализировать своим каналом восприятия в качестве хобби + как отдыхать
-          от своего главного канала восприятия/анализа, используемого в
-          деятельности, - 1 потенциала, куда переключить свое восприятие чтобы
-          восстановиться/наполниться.
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description8"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description8"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -219,12 +233,14 @@
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>5 ПОТЕНЦИАЛ</strong> – творческое хобби (в одиночестве),
-          действия человека; то, что он любит делать именно для себя, а не
-          других, чтобы получить вдохновение для основной цели по 2-му
-          потенциалу
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description9"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description9"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -241,11 +257,14 @@
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>6 ПОТЕНЦИАЛ</strong> – коллективное хобби с друзьями
-          (вторичный инструмент) – отдых от инструмента в деятельности (3-ий
-          потенциал):
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description10"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description10"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -261,32 +280,51 @@
 
       <div class="potential-group">
         <h3 class="subtitle">Описание 3 ряда:</h3>
-        <p>
-          Слабые качества (действия), которые необходимо делегировать, у вас
-          это:
-        </p>
-        <p>
-          <strong>7 ПОТЕНЦИАЛ</strong>
-        </p>
-        <div class="template-color-wrap">
-          <div
-            class="color-wrap-rect"
-            :style="{ background: findColor(colors, answers[6]) }"
-          ></div>
-          <p>{{ answers[6] }}</p>
-        </div>
         <div
-          class="template-text-wrap"
-          v-html="dbSnapshot?.potential7[answers[6]]"
+          :class="{ 'edit-elem': isEditMode }"
+          id="description11"
+          :style="{ cursor: pointer }"
+          style="margin-bottom: 20px"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description11"
         ></div>
+
+        <div class="potential-group">
+          <div
+            :class="{ 'edit-elem': isEditMode }"
+            id="description12"
+            :style="{ cursor: pointer }"
+            style="margin-bottom: 20px"
+            @click="openEditor"
+            v-html="dbSnapshot?.template.description12"
+          ></div>
+
+          <div class="template-color-wrap">
+            <div
+              class="color-wrap-rect"
+              :style="{ background: findColor(colors, answers[6]) }"
+            ></div>
+            <p>{{ answers[6] }}</p>
+          </div>
+          <div
+            class="template-text-wrap"
+            v-html="dbSnapshot?.potential7[answers[6]]"
+          ></div>
+        </div>
       </div>
 
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>8 ПОТЕНЦИАЛ</strong>
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description13"
+          :style="{ cursor: pointer }"
+          style="margin-bottom: 20px"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description13"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -303,9 +341,15 @@
       <hr />
 
       <div class="potential-group">
-        <p>
-          <strong>9 ПОТЕНЦИАЛ</strong>
-        </p>
+        <div
+          :class="{ 'edit-elem': isEditMode }"
+          id="description14"
+          :style="{ cursor: pointer }"
+          style="margin-bottom: 20px"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description14"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -440,7 +484,7 @@ p {
 }
 
 .title {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .potentials-table-wrap {
@@ -459,6 +503,7 @@ p {
 
 .template-color-wrap,
 .potentials-table-color-wrap {
+  margin-top: 20px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -487,5 +532,9 @@ hr {
 .buttons-wrap {
   display: flex;
   gap: 20px;
+}
+
+.edit-elem:hover {
+  opacity: 60%;
 }
 </style>

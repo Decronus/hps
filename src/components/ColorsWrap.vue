@@ -98,7 +98,7 @@ export default {
 <style scoped>
 .colors-wrap {
   width: 100%;
-  padding: 66px 40px 0 40px;
+  padding: 40px 40px 0 40px;
   display: flex;
   gap: 40px;
 }
