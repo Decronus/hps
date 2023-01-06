@@ -10,6 +10,14 @@
     >
       {{ n <= 9 ? `Потенциал&nbsp;${n}` : `Хобби ${n - 6}` }}
     </p>
+    <p
+      class="side-nav-el"
+      style="color: blue"
+      v-if="isEditMode"
+      @click="setFinalReportTrue"
+    >
+      Шаблон
+    </p>
 
     <button class="edit-mode-button" @click="toggleEditMode">
       <div
@@ -43,6 +51,10 @@ export default {
   },
 
   methods: {
+    setFinalReportTrue() {
+      this.$emit("set-final-report-true");
+    },
+
     toggleEditMode() {
       this.$emit("toggle-edit-mode");
     },
@@ -105,7 +117,7 @@ export default {
   position: relative;
   background: #f0f0f0;
   font-size: 13px;
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 10px;
   color: #666;
   border-radius: 6px;

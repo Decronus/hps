@@ -1,7 +1,8 @@
 <template>
   <div class="editor-background">
     <div class="editor-wrap">
-      <h2>
+      <h2 v-if="isVisibleFinalReport">Изменить абзац шаблона</h2>
+      <h2 v-else>
         Изменить текст цвета «{{ currentTextColorForEditor }}»
         {{
           currentPotential >= 9
@@ -49,21 +50,31 @@
 <script setup>
 import Editor from "@tinymce/tinymce-vue";
 import { onMounted } from "vue";
-import { dbSnapshot } from "../firebase";
-import { getDatabase, ref, update } from "firebase/database";
 import { ref as vueRef } from "vue";
 
 const isLoaderVisible = vueRef(false);
 
-const props = defineProps(["currentTextColorForEditor", "currentPotential"]);
+const props = defineProps([
+  "currentTextColorForEditor",
+  "currentIdForEditor",
+  "currentPotential",
+  "isVisibleFinalReport",
+  "dbSnapshot",
+]);
 
 function updateDbText() {
   isLoaderVisible.value = true;
 
   const db = getDatabase();
   const updates = {};
-  updates["/" + potentialOrHobby() + "/" + props.currentTextColorForEditor] =
-    tinymce.activeEditor.getContent();
+
+  if (!props.isVisibleFinalReport) {
+    updates["/" + potentialOrHobby() + "/" + props.currentTextColorForEditor] =
+      tinymce.activeEditor.getContent();
+  } else {
+    updates["/template/" + "/" + props.currentIdForEditor] =
+      tinymce.activeEditor.getContent();
+  }
 
   return update(ref(db), updates)
     .then(() => {
@@ -86,9 +97,16 @@ function potentialOrHobby() {
 onMounted(() => {
   const tinyInterval = setInterval(() => {
     try {
-      tinymce.activeEditor.setContent(
-        dbSnapshot[potentialOrHobby()][props.currentTextColorForEditor]
-      );
+      if (!props.isVisibleFinalReport) {
+        tinymce.activeEditor.setContent(
+          props.dbSnapshot[potentialOrHobby()][props.currentTextColorForEditor]
+        );
+      } else {
+        tinymce.activeEditor.setContent(
+          props.dbSnapshot.template[props.currentIdForEditor]
+        );
+      }
+
       if (tinymce) {
         setTimeout(() => {
           clearInterval(tinyInterval);
@@ -104,6 +122,7 @@ onMounted(() => {
 <script>
 export default {
   name: "content-editor",
+
   methods: {
     closeEditor() {
       this.$emit("close-editor");

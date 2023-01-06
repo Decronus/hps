@@ -48,8 +48,8 @@ export default {
   },
 
   methods: {
-    openEditor() {
-      this.$emit("open-editor");
+    openEditor(event) {
+      this.$emit("open-editor", event.target.id);
     },
   },
 

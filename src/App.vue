@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     <side-nav
+      @set-final-report-true="isVisibleFinalReport = true"
       v-if="!isVisibleFinalReport"
       @change="setNewPotential"
       :answers="answers"
@@ -15,34 +16,48 @@
       :answers="answers"
       :currentPotential="currentPotential"
       :colors="colors"
-      @open-editor="openEditor"
+      @open-editor="openColorEditor"
       :isEditMode="isEditMode"
     />
     <final-report
-      v-if="isVisibleFinalReport"
+      @set-final-report-false="isVisibleFinalReport = false"
+      v-if="isVisibleFinalReport || isVisibleFinalReportEditMode"
       :answers="answers"
       :colors="colors"
+      :isEditMode="isEditMode"
+      @open-editor="openDescriptionEditor"
+      :dbSnapshot="dbSnapshot"
     />
     <content-editor
       v-if="isVisibleEditor"
       @close-editor="closeEditor"
       :currentTextColorForEditor="currentTextColorForEditor"
+      :currentTextForEditor="currentTextForEditor"
+      :currentIdForEditor="currentIdForEditor"
       :currentPotential="currentPotential"
+      :isVisibleFinalReport="isVisibleFinalReport"
+      :dbSnapshot="dbSnapshot"
     />
   </div>
 </template>
 
 <script>
+import { getDatabase, ref, child, get } from "firebase/database";
+import { dbSnapshot } from "@/firebase";
+
 export default {
   data() {
     return {
+      dbSnapshot: null,
       currentPotential: 1,
       answers: [],
       temporaryAnswersArray: [],
       isVisibleFinalReport: false,
+      isVisibleFinalReportEditMode: false,
       isVisibleEditor: false,
       isEditMode: false,
       currentTextColorForEditor: "",
+      currentIdForEditor: "",
       colors: [
         { color: "#48BF23", textColor: "Изумруд" },
         { color: "#F19E38", textColor: "Цитрин" },
@@ -61,6 +76,16 @@ export default {
     currentPotential() {
       localStorage.setItem("currentPotential", this.currentPotential);
     },
+
+    isVisibleFinalReport() {
+      localStorage.setItem("isVisibleFinalReport", this.isVisibleFinalReport);
+    },
+
+    // isEditMode() {
+    //   if (this.isEditMode === false) {
+    //     this.isVisibleFinalReportEditMode = false;
+    //   }
+    // },
   },
 
   methods: {
@@ -86,23 +111,44 @@ export default {
     setIsVisibleFinalReport() {
       this.isVisibleFinalReport = !this.isVisibleFinalReport;
     },
-    openEditor(textColor) {
+    openColorEditor(textColor) {
       this.isVisibleEditor = true;
       this.currentTextColorForEditor = textColor;
-      console.log("curtextcolor", this.currentTextColorForEditor);
     },
+
+    openDescriptionEditor(id) {
+      this.isVisibleEditor = true;
+      this.currentIdForEditor = id;
+      console.log("id", id);
+    },
+
     closeEditor() {
       const close = confirm(
         "Несохранненые изменения будут потеряны. \nВы действительно хотите выйти?"
       );
       if (close) {
         this.isVisibleEditor = false;
-        location.reload();
+        // location.reload();
       }
     },
   },
 
   mounted() {
+    const database = getDatabase();
+    const dbRef = ref(database);
+    get(child(dbRef, "/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log("snapshot", snapshot.val());
+          this.dbSnapshot = { ...snapshot.val() };
+        } else {
+          alert("Нет доступных данных");
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+
     if (localStorage.getItem("isEditMode")) {
       if (localStorage.getItem("isEditMode") === "true") {
         this.isEditMode = true;
@@ -112,6 +158,16 @@ export default {
       }
     } else {
       localStorage.setItem("isEditMode", false);
+    }
+
+    if (localStorage.getItem("isVisibleFinalReport")) {
+      if (localStorage.getItem("isVisibleFinalReport") === "true") {
+        this.isVisibleFinalReport = true;
+      } else {
+        this.isVisibleFinalReport = false;
+      }
+    } else {
+      localStorage.setItem("isVisibleFinalReport", false);
     }
   },
 };

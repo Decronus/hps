@@ -1,8 +1,23 @@
 <template>
   <div class="final-report-wrap">
-    <main-button @click="savePDF">Сохранить в PDF</main-button>
+    <main-button v-if="!isEditMode" @click="savePDF"
+      >Сохранить в PDF</main-button
+    >
+    <main-button v-else @click="setFinalReportFalse">Назад</main-button>
+
     <div class="final-report-content" ref="PDF">
-      <h1 class="title">Система потенциалов человека (СПЧ)</h1>
+      <h1 class="template-title" v-if="isEditMode">РЕДАКТИРОВАНИЕ ШАБЛОНА</h1>
+
+      <hr v-if="isEditMode" />
+
+      <div
+        class="title"
+        id="title"
+        @click="openEditor"
+        :style="{ cursor: pointer }"
+        v-html="dbSnapshot?.template.title"
+      ></div>
+
       <div class="potentials-table-wrap">
         <h3>Таблица потенциалов</h3>
         <div class="potentials-table">
@@ -18,52 +33,22 @@
         </div>
       </div>
 
-      <p>
-        <strong
-          >В использовании своих потенциалов нужно учитывать правило: 60 - 30 -
-          10.</strong
-        >
-        В течение дня, недели, месяца, года нужно использовать свои потенциалы в
-        такой пропорции:
-      </p>
-      <p>
-        На сильные потенциалы <strong>1 ряда</strong> (работа и развитие,
-        обучение по ним) - выделять 60 процентов своего времени бодрствования.
-        Если вы будете расходовать больше времени, то будете выгорать, болеть и
-        ломаться, откатываться по финансовым уровням вниз. Если меньше времени -
-        то жизнь будет течь очень вяло, энергия застаиваться и опять же вылезать
-        болезнями, апатией, депрессией и другими расстройствами тела и психики.
-      </p>
-
-      <p>
-        Потенциалам вдохновения <strong>2 ряда</strong> следует уделять 30
-        процентов времени дня, недели, месяца, года, не больше. Если вы слишком
-        много функционируете по вашему вдохновению, то будет начинаться резкий
-        слив энергии, сильнейшая слабость, а также будут появляться дыры в
-        доходе и долги. Если слишком мало, то организм постоянно будет
-        функционировать в ограниченном режиме - с быстрой утомляемостью и
-        синдромом вечной усталости. Если вы достаточно заряжаетесь по второму
-        ряду, то будете ощущать себя вдохновленными и ресурсными, с полной
-        зарядкой своей внутренней батареи, кучей идей и новых возможностей для
-        развития своих сил.
-      </p>
-
-      <p>
-        На слабые потенциалы <strong>3 ряда</strong> нужно выделять максимум 10
-        процентов своего времени - на то, чтобы делегировать нужному
-        подрядчику/партнеру нужные процессы, не больше. Это наши слепые зоны
-        развития и их должны закрывать другие люди (в любой сфере: в
-        деятельности или дома).
-      </p>
+      <div
+        id="descriptionMain"
+        :style="{ cursor: pointer }"
+        @click="openEditor"
+        v-html="dbSnapshot?.template.descriptionMain"
+      ></div>
 
       <div class="potential-group">
         <h3 class="subtitle">Описание 1 ряда:</h3>
-        <p>
-          <strong>1 ПОТЕНЦИАЛ</strong> – ваша уникальность/экспертность. Через
-          данный потенциал человек воспринимает, понимает и анализирует мир,
-          запоминает информацию, может понимать, чего действительно хочет – ваша
-          Интуиция.
-        </p>
+        <div
+          id="description1"
+          :style="{ cursor: pointer }"
+          @click="openEditor"
+          v-html="dbSnapshot?.template.description1"
+        ></div>
+
         <div class="template-color-wrap">
           <div
             class="color-wrap-rect"
@@ -73,7 +58,7 @@
         </div>
         <div
           class="template-text-wrap"
-          v-html="dbSnapshot.potential1[answers[0]]"
+          v-html="dbSnapshot?.potential1[answers[0]]"
         ></div>
       </div>
 
@@ -335,18 +320,17 @@
 
 <script>
 import html2pdf from "html2pdf.js";
-import { dbSnapshot } from "@/firebase";
+// import { dbSnapshot } from "@/firebase";
 
 export default {
   name: "final-report",
 
-  data() {
-    return {
-      dbSnapshot: dbSnapshot,
-    };
-  },
-
   props: {
+    dbSnapshot: {
+      type: Object,
+      require: true,
+    },
+
     answers: {
       type: Array,
       require: true,
@@ -356,9 +340,24 @@ export default {
       type: Array,
       required: true,
     },
+
+    isEditMode: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   methods: {
+    openEditor(event) {
+      if (this.isEditMode) {
+        this.$emit("open-editor", event.currentTarget.id);
+      }
+    },
+
+    setFinalReportFalse() {
+      this.$emit("set-final-report-false");
+    },
+
     savePDF() {
       try {
         const opt = {
@@ -382,6 +381,12 @@ export default {
           return color.color;
         }
       }
+    },
+  },
+
+  computed: {
+    pointer() {
+      return this.isEditMode ? "pointer" : undefined;
     },
   },
 };
@@ -413,6 +418,12 @@ p {
 .potential-group {
   margin-bottom: 30px;
   margin-top: 10px;
+}
+
+.template-title {
+  margin-bottom: 30px;
+  text-align: center;
+  text-decoration: underline;
 }
 
 .title {
