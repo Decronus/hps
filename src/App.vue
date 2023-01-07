@@ -38,6 +38,7 @@
       :currentPotential="currentPotential"
       :isVisibleFinalReport="isVisibleFinalReport"
       :dbSnapshot="dbSnapshot"
+      @update-fetched-db="updateFetchedDb"
     />
   </div>
 </template>
@@ -86,6 +87,14 @@ export default {
   },
 
   methods: {
+    updateFetchedDb(path, content) {
+      if (!this.isVisibleFinalReport) {
+        this.dbSnapshot[path][this.currentTextColorForEditor] = content;
+      } else {
+        this.dbSnapshot[path][this.currentIdForEditor] = content;
+      }
+    },
+
     resetDataAfterSavingPDF() {
       this.answers = [];
       this.currentPotential = 1;
@@ -121,7 +130,6 @@ export default {
     openDescriptionEditor(id) {
       this.isVisibleEditor = true;
       this.currentIdForEditor = id;
-      console.log("id", id);
     },
 
     closeEditor() {
@@ -130,7 +138,7 @@ export default {
       );
       if (close) {
         this.isVisibleEditor = false;
-        location.reload();
+        // location.reload();
       }
     },
   },
@@ -141,7 +149,6 @@ export default {
     get(child(dbRef, "/"))
       .then((snapshot) => {
         if (snapshot.exists()) {
-          console.log("snapshot", snapshot.val());
           this.dbSnapshot = { ...snapshot.val() };
         } else {
           alert("Нет доступных данных");

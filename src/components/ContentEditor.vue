@@ -63,6 +63,8 @@ const props = defineProps([
   "dbSnapshot",
 ]);
 
+const emit = defineEmits(["update-fetched-db", "close-editor"]);
+
 function updateDbText() {
   isLoaderVisible.value = true;
 
@@ -72,9 +74,15 @@ function updateDbText() {
   if (!props.isVisibleFinalReport) {
     updates["/" + potentialOrHobby() + "/" + props.currentTextColorForEditor] =
       tinymce.activeEditor.getContent();
+    emit(
+      "update-fetched-db",
+      potentialOrHobby(),
+      tinymce.activeEditor.getContent()
+    );
   } else {
     updates["/template/" + "/" + props.currentIdForEditor] =
       tinymce.activeEditor.getContent();
+    emit("update-fetched-db", "template", tinymce.activeEditor.getContent());
   }
 
   return update(ref(db), updates)
@@ -108,14 +116,12 @@ onMounted(() => {
         );
       }
 
-      if (tinymce) {
+      if (tinymce.activeEditor.initialized) {
         setTimeout(() => {
           clearInterval(tinyInterval);
-        }, 500);
+        }, 100);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }, 50);
 });
 </script>

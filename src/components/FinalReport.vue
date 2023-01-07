@@ -426,9 +426,13 @@ export default {
         pagebreak: { mode: "avoid-all" },
       };
       const el = this.$refs.PDF;
+      console.log("el", el);
+      console.log("html", html2pdf);
       html2pdf(el, opt).then(() => {
-        this.afterSavingPDF();
-        this.setFinalReportFalse();
+        setTimeout(() => {
+          this.afterSavingPDF();
+          this.setFinalReportFalse();
+        }, 500);
       });
     },
 
